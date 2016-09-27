@@ -8,9 +8,37 @@ and open the template in the editor.
     Author     : Administrator
 */
 
+.header{
+    background-color: #cccccc;
+}
 
-nav {
+nnav {
     text-align: left;
     border: 2px;
     float: right;
+}
+
+@font-face{
+    font-family:InsideOut;
+    src:url('InsideOut.otf');
+}
+
+.titleText{
+    font-family:InsideOut;
+   
+    text-align: center;
+}
+
+.sloganText{
+    font-family:Arial;
+    
+    text-align: center;
+}
+
+.footer{
+    background-color: #cccccc;
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    
 }
