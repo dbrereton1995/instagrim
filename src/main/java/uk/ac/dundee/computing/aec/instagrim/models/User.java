@@ -27,6 +27,25 @@ public class User {
         
     }
     
+    public void checkUsername(String username){
+     ResultSet rs = null;
+     Session session = cluster.connect("instagrim");
+
+     rs = session.execute("SELECT * FROM userprofile WHERE username == login");
+
+     if(rs.isExhausted()){
+         System.out.println("you're a piece of cheese");
+         return false;
+     }else{
+         for(Row row: rs){
+     
+     String StoredUsername = row.getString("login");
+                if (StoredUsername.compareTo(username) == 0)
+                    return true;
+    }
+     }
+    }
+    
     public boolean RegisterUser(String username, String Password){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
