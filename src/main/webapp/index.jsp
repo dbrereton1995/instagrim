@@ -24,63 +24,16 @@
         <meta name ="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
-        <div class="header">
-        <div class ="container-fluid">
-            <div class="row">
-                <div class="col-sm-12">
-                    
-                    <!-- put jumbotron here if dont want it extended to edges -->
-                    <header>
-                        <h1 class="titleText"> InstaGrim </h1>
-                        <h4 class="sloganText">Your world in Black and White</h2>
-                    </header>
-                    
-                </div>
-            </div>
-        </div>
-        </div>
+<%@include file="header.jsp"%>
         
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Something</a>
-                </div>
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="upload.jsp">Upload</a></li>
-                        <%
-                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-                        if (lg != null) {
-                            String UserName = lg.getUsername();
-                            if (lg.getlogedin()) {
-                        %>
-                        <li><a href="#">Other Thing</a></li>
-                    </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                    <%}
-                            }else{
-                                %>
-                    <li><a href="register.jsp"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                    <li><a href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <% }
-                    %>
-                </ul>
-            </div>
-        </nav>
-
             
-            <div class="row">
-                <div class="col-sm-4">.col-sm-4</div>
-                <div class="col-sm-8">.col-sm-8</div>
-            </div>
             
-        <footer>
-            <div class="footer">
-            <ul>
-                      &COPY; Daniel Brereton - Applied Computing, Year 3
-            </ul>
-            </div>
-        </footer>
+                <div class="col-sm-6">.col-sm-6</div>
+                <div class="col-sm-6">.col-sm-6</div>
+            
+            
+        
+        
+        
     </body>
 </html>
