@@ -17,7 +17,7 @@
             <div class="row">
                 
                 <div class="header col-sm-12">
-                    <img src="logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;">  
+                    <img src="logo.png" alt="InstaGrim p Logo" style="max-width:100%; height:auto; width:auto\9;">  
                     
                 </div>
       
