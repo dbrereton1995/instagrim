@@ -10,30 +10,22 @@ and open the template in the editor.
 
 .header{
     background-color: #cccccc;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align:center;
+
 }
 
-nnav {
-    text-align: left;
-    border: 2px;
-    float: right;
-}
 
-@font-face{
-    font-family:InsideOut;
-    src:url('InsideOut.otf');
-}
 
-.titleText{
-    font-family:InsideOut;
-   
-    text-align: center;
-}
-
-.sloganText{
-    font-family:Arial;
+body{
     
-    text-align: center;
 }
+
+
+
+
+
 
 .footer{
     background-color: #cccccc;
