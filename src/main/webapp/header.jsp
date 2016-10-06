@@ -15,22 +15,32 @@
              <div class="header">
         <div class ="container-fluid">
             <div class="row">
-                <div class="col-sm-10">
-                    
-                    
-                    <header>
-                        <h1 class="titleText"> InstaGrim </h1>
-                        <h4 class="sloganText">Your world in Black and White</h2>
-                    </header>
+                
+                <div class="header col-sm-12">
+                    <img src="logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;">  
                     
                 </div>
-            </div>
+      
+           
+                    
+                        
+                        
+                </div>
+                
+            
         </div>
         </div>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Something</a>
+                    
+                    <!--<div class = "searchbar">
+                        <form>
+                            <input class = "searchInput" placeholder="Enter Search Term..." type="search" value="" name="search">
+                            <input class = "searchSubmit" type="submit" value="">
+                            <span class="searchIcon"></span>
+                        </form>
+                    </div>-->
                 </div>
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="#">Home</a></li>
@@ -38,12 +48,27 @@
                         
                         <li><a href="#">Other Thing</a></li>
                     </ul>
+                
+                
+                
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Your Images</a></li>
+                    <%  //Returns LoggedIn object from current session
+                    LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+                    
+                    if(lg!=null){
+                        String UserName = lg.getUsername();
+                        if(lg.getlogedin()){
+                    %>
+                    <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                    <% }
+}else{
+%>
+}
                    
                     <li><a href="register.jsp"><span class="glyphicon glyphicon-user"></span> Register</a></li>
                     <li><a href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    
+                    <% }
+%>
                 </ul>
             </div>
         </nav>
