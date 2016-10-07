@@ -27,23 +27,40 @@ public class User {
         
     }
     
-    public void checkUsername(String username){
-     ResultSet rs = null;
+    public boolean checkUsername(String username){
+     
      Session session = cluster.connect("instagrim");
 
-     rs = session.execute("SELECT * FROM userprofile WHERE username == login");
+     ResultSet rs = session.execute("SELECT * FROM userprofile WHERE username == login");
 
      if(rs.isExhausted()){
-         System.out.println("you're a piece of cheese");
+         System.out.println("Username doesn't exist");
          return false;
      }else{
          for(Row row: rs){
      
      String StoredUsername = row.getString("login");
-                if (StoredUsername.compareTo(username) == 0)
+                if (StoredUsername.compareTo(username) == 0){
                     return true;
     }
      }
+    }
+    }
+    
+    public int checkPasswordStrength(String password){
+        
+        int rating = 0;
+        if(password == null){
+            return rating;
+        }
+        
+        int[] tally;
+        for(int i = 0; i<password.length();i++){
+            
+        }
+        
+        
+        
     }
     
     public boolean RegisterUser(String username, String Password){
