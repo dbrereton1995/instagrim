@@ -13,33 +13,102 @@
         <link rel="stylesheet" type="text/css" href="Styles.css" />
     </head>
     <body>
-        <header>
-        <h1>InstaGrim ! </h1>
-        <h2>Your world in Black and White</h2>
-        </header>
-        <nav>
-            <ul>
-                
-                <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
-            </ul>
-        </nav>
-       
-        <article>
-            <h3>Register as user</h3>
-            <form method="POST"  action="Register">
-                <ul>
-                    <li>User Name <input type="text" name="username"></li>
-                    <li>Password <input type="password" name="password"></li>
-                </ul>
-                <br/>
-                <input type="submit" value="Regidter"> 
-            </form>
+        <%@include file="header.jsp"%>
 
-        </article>
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
-        </footer>
+        <div class="container padding-top-10">
+            <div class="panel panel-default">
+                <div class="panel-heading">Registration</div>
+                <div class="panel-body">
+                    <form method="POST" action="Register">
+                        <label for="username" class="control-label padding-top-10">Username: </label>
+                        <div class="row padding-top-10">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Username"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 padding-top-10">
+                                <label for="password" class="control-label">Password:</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password"/>
+                            </div>
+                             <div class="col-md-6 padding-top-10">
+                                 <label for="confirmpassword" class="control-label">Confirm Password:</label>
+                                 <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm your password"/>
+                                         </div>
+                             </div>
+                        <label for="first_name" class="control-label padding-top-10">Name:</label>
+                        <div class="row">
+                            
+                            <div class="col-md-6 padding-top-10">
+                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="First Name"/>
+                            </div>
+                            <div class="col-md-6 padding-top-10">
+                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Last Name"/>
+                            </div>
+                        </div>
+                        <label for="address1" class="control-label padding-top-10">Address: </label>
+                        <div class="row padding-top-10">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="address1" id="address1" placeholder="Address Line 1"/>
+                            </div>
+                        </div>
+                        <div class="row padding-top-10">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" name="address2" id="address2" placeholder="Address Line 2"/>
+                            </div>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="col-md-6 padding-top-10">
+                                <label for="city" class="control-label">City:</label>
+                                <input type="text" class="form-control" name="city" id="city" placeholder="City"/>
+                            </div>
+                            <div class="col-md-2 padding-top-10">
+                                <label for="region" class="control-label">Region:</label>
+                                 <input type="text" class="form-control" name="region" id="region" placeholder="Region"/>
+                            </div>
+                            <div class="col-md-4 padding-top-10">
+                                <label for="postcode" class="control-label">Postcode:</label>
+                                 <input type="text" class="form-control" name="postcode" id="postcode" placeholder="Postcode"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 padding-top-10">
+                                <label for="email" class="control-label">Email Address:</label>
+                                <input type="text" class="form-control" name="email" id="email" placeholder="Email Address"/>
+                            </div>
+                      
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 padding-top-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"/> Click here to agree to our terms of service
+                                        
+                                    </label>
+                            </div
+                            <div class="col-md-6 padding-top-10">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"/> Click here to opt out of our newsletter
+                                    </label>
+                            </div>
+                        </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-md-2 col-md-offset-5">
+                                    <input type="submit" value="Register" class="btn btn-success">
+                                    
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </body>
 </html>
