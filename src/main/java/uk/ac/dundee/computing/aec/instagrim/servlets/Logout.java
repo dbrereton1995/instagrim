@@ -16,29 +16,33 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 
 /**
  *
  * @author Administrator
  */
-@WebServlet(urlPatterns = {"/Register", "/Register.*"})
-public class Register extends HttpServlet {
+@WebServlet(urlPatterns = {"/Logout", })
+public class Logout extends HttpServlet {
+
     Cluster cluster=null;
+
+
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
         cluster = CassandraHosts.getCluster();
     }
 
-
-@Override
+    @Override
      protected void doGet(HttpServletRequest request, HttpServletResponse response)
              throws ServletException, IOException{
-         RequestDispatcher rd=request.getRequestDispatcher("register.jsp");
+         RequestDispatcher rd=request.getRequestDispatcher("login.jsp");
          rd.forward(request, response);
      }
-
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -50,41 +54,30 @@ public class Register extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String username=request.getParameter("username");
         String password=request.getParameter("password");
-        String confirmpassword=request.getParameter("confirmpassword");
-        String email=request.getParameter("email");
-        String first_name=request.getParameter("first_name");
-        String last_name=request.getParameter("last_name");
-        String address1=request.getParameter("address1");
-        String city=request.getParameter("city");
-        String country=request.getParameter("country");
-        String postcode=request.getParameter("postcode");
-        
         
         User us=new User();
         us.setCluster(cluster);
-        boolean ExistingUsername = us.checkUsernameExists(username); 
-       // boolean NullPassword = us.IsPasswordNull(password);
-        int StrongPassword = us.IsPasswordStrong(password);
-        boolean PasswordsMatch = us.doPasswordsMatch(password, confirmpassword);
-        boolean ExistingEmail = us.checkEmailExists(email);
+        boolean isValid=us.IsValidUser(username, password);
+        HttpSession session=request.getSession();
+        System.out.println("Session in servlet "+session);
+        if (isValid){
+            LoggedIn lg= new LoggedIn();
+            lg.setLogedin();
+            lg.setUsername(username);
+            //request.setAttribute("LoggedIn", lg);
+            
+            session.setAttribute("LoggedIn", lg);
+            System.out.println("Session in servlet "+session);
+            RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+	    rd.forward(request,response);
+            
+        }else{
+            response.sendRedirect("/Instagrim/login.jsp");
+        }
         
-        
-        if(StrongPassword<4){request.setAttribute("registerError", "Password not strong enough! /n Add at least one: lowercase, Uppercase, number or symbol");}
-        //else if(PasswordsMatch){request.setAttribute("registerError", "Passwords don't match!");}
-       // else  if(ExistingUsername){request.setAttribute("registerError", "Username already exists!");}
-        //else if(ExistingEmail){request.setAttribute("registerError", "Email already exists!");}
-        //else{
-       
-       
-        RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
-        rd.forward(request, response);
-        
-        us.RegisterUser(username, password, email, first_name, last_name, address1, city, country, postcode);
-        
-	response.sendRedirect("/Instagrim");
-        //}
     }
 
     /**
@@ -98,5 +91,3 @@ public class Register extends HttpServlet {
     }// </editor-fold>
 
 }
-
-

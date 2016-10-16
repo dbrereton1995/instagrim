@@ -25,7 +25,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
  *
  * @author Administrator
  */
-@WebServlet(name = "Login", urlPatterns = {"/Login"})
+@WebServlet(urlPatterns = {"/Login", "/Login/*"})
 public class Login extends HttpServlet {
 
     Cluster cluster=null;
@@ -36,6 +36,13 @@ public class Login extends HttpServlet {
         cluster = CassandraHosts.getCluster();
     }
 
+    @Override
+     protected void doGet(HttpServletRequest request, HttpServletResponse response)
+             throws ServletException, IOException{
+         RequestDispatcher rd=request.getRequestDispatcher("login.jsp");
+         rd.forward(request, response);
+     }
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

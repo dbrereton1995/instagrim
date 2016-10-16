@@ -36,7 +36,9 @@ import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
     "/Image/*",
     "/Thumb/*",
     "/Images",
-    "/Images/*"
+    "/Images/*",
+    "/Upload/*",
+    "/Upload"
 })
 @MultipartConfig
 
@@ -57,6 +59,7 @@ public class Image extends HttpServlet {
         CommandsMap.put("Image", 1);
         CommandsMap.put("Images", 2);
         CommandsMap.put("Thumb", 3);
+        CommandsMap.put("Upload", 4);
 
     }
 
@@ -70,10 +73,11 @@ public class Image extends HttpServlet {
      * response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // TODO Auto-generated method stub
+        // takes url splits it up per slash
         String args[] = Convertors.SplitRequestPath(request);
         int command;
         try {
+            //
             command = (Integer) CommandsMap.get(args[1]);
         } catch (Exception et) {
             error("Bad Operator", response);
@@ -89,6 +93,12 @@ public class Image extends HttpServlet {
             case 3:
                 DisplayImage(Convertors.DISPLAY_THUMB,args[2],  response);
                 break;
+            case 4:
+                
+         RequestDispatcher rd=request.getRequestDispatcher("upload.jsp");
+        
+         rd.forward(request, response);
+     
             default:
                 error("Bad Operator", response);
         }

@@ -29,6 +29,7 @@ public final class Keyspaces {
                     + " type  varchar,"
                     + " name  varchar,"
                     + " PRIMARY KEY (picid)"
+                    + " comments set<text>,"
                     + ")";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"
@@ -44,10 +45,14 @@ public final class Keyspaces {
             String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
                      + "     password text,\n"
-                    + "      first_name text,\n"
+                   + "      first_name text,\n"
                     + "      last_name text,\n"
-                    + "      email set<text>,\n"
-                    + "      addresses  map<text, frozen <address>>\n"
+                    + "      email text,\n"
+                    + "      address1  text, \n"
+                    + "      city  text, \n"
+                    + "      country  text, \n"
+                    + "      postcode  text, \n"
+                    + "      profilepic uuid"
                     + "  );";
             Session session = c.connect();
             try {

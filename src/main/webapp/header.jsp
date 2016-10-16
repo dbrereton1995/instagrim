@@ -4,7 +4,16 @@
     Author     : dbrer
 --%>
 
+<!-- Bootstrap Content -->
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +26,7 @@
             <div class="row">
                 
                 <div class="header col-sm-12">
-                    <img src="logo.png" alt="InstaGrim p Logo" style="max-width:100%; height:auto; width:auto\9;">  
+                    <img src="resources/logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;">  
                     
                 </div>
       
@@ -34,41 +43,45 @@
             <div class="container-fluid">
                 <div class="navbar-header">
                     
-                    <!--<div class = "searchbar">
-                        <form>
-                            <input class = "searchInput" placeholder="Enter Search Term..." type="search" value="" name="search">
-                            <input class = "searchSubmit" type="submit" value="">
-                            <span class="searchIcon"></span>
-                        </form>
-                    </div>-->
+                    
                 </div>
+                
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="upload.jsp">Upload</a></li>
-                        
-                        <li><a href="#">Other Thing</a></li>
-                    </ul>
-                
-                
-                
-                <ul class="nav navbar-nav navbar-right">
-                    <%  //Returns LoggedIn object from current session
+                        <%  //Returns LoggedIn object from current session
                     LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
                     
                     if(lg!=null){
                         String UserName = lg.getUsername();
                         if(lg.getlogedin()){
                     %>
+                        <li><a href="/Instagrim/">Home</a></li>
+                        <li><a href="/Instagrim/Upload">Upload</a></li>
+                        <% }
+}else{ %>
+                        <li><a href="/Instagrim/">Home</a></li>
+                        <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
+                        
+                    </ul>
+                <% } %>
+                
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <%  
+                    
+                    
+                    if(lg!=null){
+                        
+                        if(lg.getlogedin()){
+                    %>
                     <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                    <li><a href="logout.jsp"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
                     <% }
-}else{
-%>
-}
+}else{ %>
+
                    
-                    <li><a href="register.jsp"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                    <li><a href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <% }
-%>
+                    <li><a href="/Instagrim/Register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                    <li><a href="/Instagrim/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <% } %>
                 </ul>
             </div>
         </nav>

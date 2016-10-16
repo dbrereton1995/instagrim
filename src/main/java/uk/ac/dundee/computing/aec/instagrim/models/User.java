@@ -27,74 +27,122 @@ public class User {
         
     }
     
-    public boolean checkUsername(String username){
-     
+    public boolean checkUsernameExists(String username){
+        String lowercaseUsername = username.toLowerCase();
+     //check username exists, false = good, true = bad
      Session session = cluster.connect("instagrim");
-
-     ResultSet rs = session.execute("SELECT * FROM userprofile WHERE username == login");
-
+     PreparedStatement ps = session.prepare("SELECT username FROM userprofiles WHERE username = ?");
+     ResultSet rs = null;
+     BoundStatement bs = new BoundStatement(ps);
+     rs = session.execute(bs.bind(username));
      if(rs.isExhausted()){
-         System.out.println("Username doesn't exist");
+         System.out.println("username not found");
          return false;
+      
      }else{
-         for(Row row: rs){
-     
-     String StoredUsername = row.getString("login");
-                if (StoredUsername.compareTo(username) == 0){
-                    return true;
-    }
+         System.out.println("username already exists");
+         return true;
+         
      }
+     
     }
-    }
-    
-    public int checkPasswordStrength(String password){
-        
-        int rating = 0;
-        if(password == null){
-            return rating;
-        }
-        
-        int[] tally;
-        for(int i = 0; i<password.length();i++){
-            
-        }
-        
-        
-        
+
+    public boolean IsPasswordNull(String password){
+     return password.equals("");  
     }
     
-    public boolean RegisterUser(String username, String Password){
+    public int IsPasswordStrong(String password){
+        
+        
+        
+        int score = 0;
+        
+        if(password.matches(".*[A-Z].*")){
+             score += 1;
+             System.out.println(score + "uppercase");
+        }
+        
+        if (password.matches(".*[a-z].*")){
+            score +=1;
+            System.out.println(score + "lowercase");
+        }
+
+     if (password.matches(".*\\d.*")){
+         score +=1;
+         System.out.println(score + "number");
+     }
+
+     if (password.matches(".*[~!.......].*")){
+     score +=1;
+     System.out.println(score + "symbol");
+     }
+
+        System.out.println("pw strength: " + score);
+        return score;
+    }
+    
+    public boolean doPasswordsMatch(String password, String confirmpassword){
+        return password.equals(confirmpassword);
+    }
+    
+   public boolean checkEmailExists(String email){
+     //check username exists, false = good, true = bad
+     Session session = cluster.connect("instagrim");
+     
+    
+     ResultSet rs = session.execute("SELECT email FROM userprofiles");
+     if(rs.isExhausted()){
+         System.out.println("email not found");
+         return false;
+      
+     }else{
+         for (Row row : rs) {
+               
+                String StoredEmail = row.getString("email");
+                if (StoredEmail.compareTo(email) == 1){
+                    
+         System.out.println("email already exists");
+         return true;
+                }
+         
+     }
+         return false;
+    }
+   }
+
+    
+    public boolean RegisterUser(String username, String password, String email, String first_name, String last_name, String address1, String city, String country, String postcode){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         try {
-            EncodedPassword= sha1handler.SHA1(Password);
+            EncodedPassword= sha1handler.SHA1(password);
         }catch (UnsupportedEncodingException | NoSuchAlgorithmException et){
             System.out.println("Can't check your password");
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("insert into userprofiles (login,password) Values(?,?)");
+        PreparedStatement ps = session.prepare("insert into userprofiles (username, password, email, first_name, last_name, address1, city, country, postcode) Values(?,?,?,?,?,?,?,?,?)");
        
         BoundStatement boundStatement = new BoundStatement(ps);
         session.execute( // this is where the query is executed
                 boundStatement.bind( // here you are binding the 'boundStatement'
-                        username,EncodedPassword));
+                        username,EncodedPassword, email, first_name, last_name, address1, city, country, postcode));
         //We are assuming this always works.  Also a transaction would be good here !
         
         return true;
     }
     
-    public boolean IsValidUser(String username, String Password){
+    public boolean IsValidUser(String username, String password){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;
         try {
-            EncodedPassword= sha1handler.SHA1(Password);
+            EncodedPassword= sha1handler.SHA1(password);
         }catch (UnsupportedEncodingException | NoSuchAlgorithmException et){
             System.out.println("Can't check your password");
             return false;
         }
         Session session = cluster.connect("instagrim");
-        PreparedStatement ps = session.prepare("select password from userprofiles where login =?");
+        PreparedStatement ps = session.prepare("select password from userprofiles where username =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
         rs = session.execute( // this is where the query is executed
