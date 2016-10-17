@@ -25,11 +25,8 @@
             
 <div class="mainIndex col-sm-8 well-lg">
      <h1>Recent Uploads</h1>
-            <%
-            java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-            if (lsPics == null) {
-        %>
-        <p>No Pictures found</p>
+          
+        
     <div class="col-sm-3 well">
                     
                 
