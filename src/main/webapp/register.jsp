@@ -23,17 +23,17 @@
                         <label for="username" class="control-label padding-top-10">Username: </label>
                         <div class="row padding-top-10">
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required"/>
+                                <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required" pattern=".{3,}" title="3 or more characters minimum"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 padding-top-10">
                                 <label for="password" class="control-label">Password:</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required="required" pattern=".{7,}" required title="7 characters minimum"/>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" title="7 characters minimum including at least 1: lowercase and uppercase letter, number and symbol"/>
                             </div>
                              <div class="col-md-6 padding-top-10">
                                  <label for="confirmpassword" class="control-label">Confirm Password:</label>
-                                 <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm your password" required="required" pattern=".{7,}" required title="7 characters minimum"/>
+                                 <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" placeholder="Confirm your password" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" title="7 characters minimum including at least 1: lowercase and uppercase letter, number and symbol"/>
                                          </div>
                              </div>
                         <label for="first_name" class="control-label padding-top-10">Name:</label>

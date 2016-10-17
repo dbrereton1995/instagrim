@@ -45,7 +45,7 @@ public final class Keyspaces {
             String CreateUserProfile = "CREATE TABLE if not exists instagrim.userprofiles (\n"
                     + "      login text PRIMARY KEY,\n"
                      + "     password text,\n"
-                   + "      first_name text,\n"
+                   + "       first_name text,\n"
                     + "      last_name text,\n"
                     + "      email text,\n"
                     + "      address1  text, \n"

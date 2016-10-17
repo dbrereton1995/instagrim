@@ -16,7 +16,12 @@ and open the template in the editor.
 
 }
 
-
+.mainIndex{
+    width:50%;
+    margin: 0 auto;
+    text-align: center;
+    display: inline-block;
+}
 
 body{
     

@@ -71,11 +71,11 @@ public class Register extends HttpServlet {
         boolean ExistingEmail = us.checkEmailExists(email);
         
         
-        if(StrongPassword<4){request.setAttribute("registerError", "Password not strong enough! /n Add at least one: lowercase, Uppercase, number or symbol");}
-        //else if(PasswordsMatch){request.setAttribute("registerError", "Passwords don't match!");}
-       // else  if(ExistingUsername){request.setAttribute("registerError", "Username already exists!");}
-        //else if(ExistingEmail){request.setAttribute("registerError", "Email already exists!");}
-        //else{
+        
+         if(PasswordsMatch){request.setAttribute("registerError", "Passwords don't match!");}
+       else  if(ExistingUsername){request.setAttribute("registerError", "Username already exists!");}
+       else if(ExistingEmail){request.setAttribute("registerError", "Email already exists!");}
+        else{
        
        
         RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
@@ -84,7 +84,7 @@ public class Register extends HttpServlet {
         us.RegisterUser(username, password, email, first_name, last_name, address1, city, country, postcode);
         
 	response.sendRedirect("/Instagrim");
-        //}
+        }
     }
 
     /**

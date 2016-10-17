@@ -132,6 +132,8 @@ public class User {
         return true;
     }
     
+    
+    
     public boolean IsValidUser(String username, String password){
         AeSimpleSHA1 sha1handler=  new AeSimpleSHA1();
         String EncodedPassword=null;

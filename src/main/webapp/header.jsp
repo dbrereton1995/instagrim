@@ -60,9 +60,9 @@
 }else{ %>
                         <li><a href="/Instagrim/">Home</a></li>
                         <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
-                        
+                        <% } %>
                     </ul>
-                <% } %>
+                
                 
                 
                 <ul class="nav navbar-nav navbar-right">

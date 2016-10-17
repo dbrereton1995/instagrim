@@ -4,6 +4,7 @@
     Author     : Administrator
 --%>
 
+<%@page import="java.util.Iterator"%>
 <!DOCTYPE html>
 
 <html>
@@ -17,10 +18,46 @@
     <body>
 <%@include file="header.jsp"%>
         
+            <div class="col-sm-2 well">
+                <h4>Latest News</h4>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ornare pulvinar felis a aliquam. Curabitur eu massa ligula. Maecenas tempus dignissim nisi, sed vulputate diam ullamcorper id. 
+            </div>
             
-            
-                <div class="col-sm-6">.col-sm-6</div>
-                <div class="col-sm-6">.col-sm-6</div>
+<div class="mainIndex col-sm-8 well-lg">
+     <h1>Recent Uploads</h1>
+            <%
+            java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
+            if (lsPics == null) {
+        %>
+        <p>No Pictures found</p>
+    <div class="col-sm-3 well">
+                    
+                
+                </div>
+    <div class="col-sm-3 well">
+                    
+                
+                </div>
+    <div class="col-sm-3 well">
+                    
+                
+                </div>
+    <div class="col-sm-3 well">
+                    
+                
+                </div>
+       
+                
+           
+
+        
+    
+    
+</div>
+                <div class="col-sm-2 well">
+                    <h4>Popular Users</h4>
+                
+                </div>
             
             
         
