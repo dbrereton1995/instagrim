@@ -9,13 +9,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Instagrim</title>
+        <link rel="stylesheet" type="text/css" href="/Instagrim/Styles.css" />
     </head>
     <body>
-         <%@include file="header.jsp"%>
-         
-         
-         
-         
+        <%
+            LoggedIn loggedIn = (LoggedIn) session.getAttribute("LoggedIn"); 
+            %>
+        <%@include file="header.jsp"%>
+        <p>The username is: <%%></p>
+
+
     </body>
 </html>
