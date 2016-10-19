@@ -18,6 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
+import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
+import uk.ac.dundee.computing.aec.instagrim.models.User;
+
+import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
+import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
+
 
 /**
  *
@@ -41,24 +47,49 @@ public class profile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String args[] = Convertors.SplitRequestPath(request);
         switch (args.length) {
-            // instagrim/profile
+            // instagrim/profile/username
             case 2:
-                showProfile( request, response);
+                //initProfile(request, response, args[2]);
                 break;
             // instagrim/profile/<username>
             case 3:
-                showProfile(args[2], request, response);
+                showCurrentProfile(args[2], request, response);
                 break;
         }
     }
 
-    private void showProfile(String username, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void initProfile(HttpServletRequest request, HttpServletResponse response, String username) throws ServletException, IOException{
+        RequestDispatcher rd = request.getRequestDispatcher("/profile/userprofile.jsp");
+        HttpSession session = request.getSession();
+        User user = new User();
+        
+        //if(user.checkUsernameExists(username)){
+            
+            session.setAttribute("username", username);
+       // }
+        rd.forward(request, response);
+    }
+    
+    private void showCurrentProfile(String username, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        
         
             RequestDispatcher rd = request.getRequestDispatcher("/userProfile.jsp");
             HttpSession session = request.getSession();
-            session.setAttribute("asdasd", username);
+            session.setAttribute("username", username);
+            
+        
+       // PicModel tm = new PicModel();
+      //  tm.setCluster(cluster);
+       // java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
+      
+      //  request.setAttribute("Pics", lsPics);
+       
+
+    
+            
             rd.forward(request, response);
-            onlydoonce = true;
+          
         
     }
 
