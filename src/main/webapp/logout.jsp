@@ -12,14 +12,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    
+
     <body>
-        
+
         <%
-            lg = (null); 
+            lg = (null);
             session.invalidate();
             response.sendRedirect("/Instagrim");
-            %>
-        
+        %>
+
     </body>
 </html>
