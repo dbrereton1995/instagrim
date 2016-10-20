@@ -19,69 +19,69 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
+        
     </head>
     <body>
-             <div class="header">
-        <div class ="container-fluid">
-            <div class="row">
-                
-                <div class="header col-sm-12">
-                    <img src="resources/logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;">  
-                    
+        <div class="header">
+            <div class ="container-fluid">
+                <div class="row">
+
+                    <div class="header col-sm-12">
+                        <img src="/Instagrim/resources/logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;">  
+
+                    </div>
+
+
+
+
+
                 </div>
-      
-           
-                    
-                        
-                        
-                </div>
-                
-            
-        </div>
+
+
+            </div>
         </div>
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    
-                    
+
+
                 </div>
-                
-                    <ul class="nav navbar-nav">
-                        <%  //Returns LoggedIn object from current session
-                    LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
-                    
-                    if(lg!=null){
-                        String UserName = lg.getUsername();
-                        if(lg.getlogedin()){
+
+                <ul class="nav navbar-nav">
+                    <%  //Returns LoggedIn object from current session
+                        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+
+                        if (lg != null) {
+                            String UserName = lg.getUsername();
+                            if (lg.getlogedin()) {
                     %>
-                        <li><a href="/Instagrim/">Home</a></li>
-                        <li><a href="/Instagrim/Upload">Upload</a></li>
+                    <li><a href="/Instagrim/">Home</a></li>
+                    <li><a href="/Instagrim/Upload">Upload</a></li>
                         <% }
-}else{ %>
-                        <li><a href="/Instagrim/">Home</a></li>
-                        <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
+                        } else { %>
+                    <li><a href="/Instagrim/">Home</a></li>
+                    <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
                         <% } %>
-                    </ul>
-                
-                
-                
+                </ul>
+
+
+
                 <ul class="nav navbar-nav navbar-right">
-                    <%  
-                    
-                    
-                    if(lg!=null){
-                        
-                        if(lg.getlogedin()){
+                    <%
+
+                        if (lg != null) {
+
+                            if (lg.getlogedin()) {
                     %>
                     <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
-                    <li><a href="logout.jsp"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
-                    <% }
-}else{ %>
+                    <li><a href="/Instagrim/logout.jsp"><span class="glyphicon glyphicon-log-out"></span> Log Out (<%=lg.getUsername()%>)</a></li>
+                        <% }
+                        } else { %>
 
-                   
+
                     <li><a href="/Instagrim/Register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
                     <li><a href="/Instagrim/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                    <% } %>
+                        <% }%>
                 </ul>
             </div>
         </nav>
