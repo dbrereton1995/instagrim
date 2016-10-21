@@ -14,9 +14,9 @@
     </head>
     <%@include file="header.jsp"%>
     <body>
-        
 
- 
+
+
         <article>
             <h3>File Upload</h3>
             <form method="POST" enctype="multipart/form-data" action="Image">

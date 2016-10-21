@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package uk.ac.dundee.computing.aec.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
@@ -28,8 +27,7 @@ import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
 @WebServlet(urlPatterns = {"/Login", "/Login/*"})
 public class Login extends HttpServlet {
 
-    Cluster cluster=null;
-
+    Cluster cluster = null;
 
     public void init(ServletConfig config) throws ServletException {
         // TODO Auto-generated method stub
@@ -37,12 +35,12 @@ public class Login extends HttpServlet {
     }
 
     @Override
-     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-             throws ServletException, IOException{
-         RequestDispatcher rd=request.getRequestDispatcher("login.jsp");
-         rd.forward(request, response);
-     }
-    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        rd.forward(request, response);
+    }
+
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -54,30 +52,30 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String username=request.getParameter("username");
-        String password=request.getParameter("password");
-        
-        User us=new User();
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        User us = new User();
         us.setCluster(cluster);
-        boolean isValid=us.IsValidUser(username, password);
-        HttpSession session=request.getSession();
-        System.out.println("Session in servlet "+session);
-        if (isValid){
-            LoggedIn lg= new LoggedIn();
+        boolean isValid = us.IsValidUser(username, password);
+        HttpSession session = request.getSession();
+        System.out.println("Session in servlet " + session);
+        if (isValid) {
+            LoggedIn lg = new LoggedIn();
             lg.setLogedin();
             lg.setUsername(username);
             //request.setAttribute("LoggedIn", lg);
-            
+
             session.setAttribute("LoggedIn", lg);
-            System.out.println("Session in servlet "+session);
-            RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
-	    rd.forward(request,response);
-            
-        }else{
+            System.out.println("Session in servlet " + session);
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
+
+        } else {
             response.sendRedirect("/Instagrim/login.jsp");
         }
-        
+
     }
 
     /**

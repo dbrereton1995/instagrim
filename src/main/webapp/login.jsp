@@ -10,14 +10,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Instagrim</title>
-        <link rel="stylesheet" type="text/css" href="Styles.css" />
+       <link rel="stylesheet" type="text/css" href="/Instagrim/Styles.css" />
 
     </head>
     <body>
         <%@include file="header.jsp"%>
 
-    
-    
+
+
 
         <form method="POST"  action="Login">
             <div class="container padding-top-10">
@@ -28,7 +28,7 @@
                             <label for="username" class="control-label padding-top-10">Username: </label>
                             <div class="row padding-top-10">
                                 <div class="col-md-12  padding-top-10">
-                                    
+
                                     <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required" />
                                 </div>
                             </div>
@@ -50,8 +50,8 @@
                 </div>
             </div>
         </form>
-        
-       
+
+
         <footer>
             <ul>
                 <li class="footer"><a href="/Instagrim">Home</a></li>

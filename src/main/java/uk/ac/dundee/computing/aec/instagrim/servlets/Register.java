@@ -74,10 +74,11 @@ public class Register extends HttpServlet {
         if (ExistingUsername) {
             request.setAttribute("errorMsg", "Username already exists!");
             rd.forward(request, response);
-        } else if (PasswordsMatch) {
+        }
+         if (PasswordsMatch == false) {
             request.setAttribute("errorMsg", "Passwords don't match!");
             rd.forward(request, response);
-        } else if (ExistingEmail) {
+        }  if (ExistingEmail) {
             request.setAttribute("errorMsg", "Email already exists!");
             rd.forward(request, response);
         } else {

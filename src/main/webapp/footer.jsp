@@ -12,10 +12,10 @@
         <title>JSP Page</title>
     </head>
     <body>
-         <div class="footer">
+        <div class="footer">
             <ul>
-                      &COPY; Andy C
+                &COPY; Andy C
             </ul>
-            </div>
+        </div>
     </body>
 </html>
