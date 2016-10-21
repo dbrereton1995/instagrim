@@ -6,7 +6,7 @@
 
 <%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="uk.ac.dundee.computing.aec.instagrim.stores.*" %>
+<%@ page import="uk.ac.dundee.computing.djb.instagrim.stores.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,8 +17,8 @@
     <body>
         <%@include file="header.jsp"%>
         <div class="mainIndex">
-            <% if(lg != null){ %>
-            
+            <% if (lg != null) {%>
+
             <h1 ><%=lg.getUsername()%>'s Pics</h1> <br></br>
             <% } %>
             <article>
@@ -39,7 +39,9 @@
                 %>
                 <div class="col-sm-3" style=" display:inline-block; margin: 0 auto; height: auto; width: auto; border: 2px solid;">
 
-                    <br></br><a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"><br></br></a>
+                    <br></br><a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"><br>
+                        <p><%=p.getDescription()%> <p>
+                        </br></a>
 
 
                 </div>

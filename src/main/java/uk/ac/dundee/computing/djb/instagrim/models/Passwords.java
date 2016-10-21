@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.dundee.computing.aec.instagrim.models;
+package uk.ac.dundee.computing.djb.instagrim.models;
 
 import java.security.SecureRandom;
 import java.util.Random;

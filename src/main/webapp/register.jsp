@@ -16,34 +16,31 @@
         <%@include file="header.jsp"%>
 
         <%
-                        
-                       String errorMsg = (String) request.getAttribute("errorMsg");
+            String errorMsg = (String) request.getAttribute("errorMsg");
 
-                        if (errorMsg != null) {
-                            
-                        
-                       
-                        
-                            %>
-                           <div>
-                               <%=errorMsg%>
-                           </div>
-                            <%
-                           }
+            if (errorMsg != null) {
 
-                    %>
-        
+
+        %>
+        <div>
+            <%=errorMsg%>
+        </div>
+        <%
+            }
+
+        %>
+
         <div class="container padding-top-10">
             <div class="panel panel-default">
                 <div class="panel-heading">Registration</div>
                 <div class="panel-body">
 
-                    
+
 
                     <form method="POST" action="Register">
                         <label for="username" class="control-label padding-top-10">Username: 
-                             
-                              </label>
+
+                        </label>
                         <div class="row padding-top-10">
                             <div class="col-md-12">
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Username" required="required" pattern=".{3,}" title="3 or more characters minimum"/>
@@ -52,7 +49,7 @@
                         <div class="row">
                             <div class="col-md-6 padding-top-10">
                                 <label for="password" class="control-label">Password: 
-                                     </label>
+                                </label>
                                 <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required="required" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{7,}" title="7 characters minimum including at least 1: lowercase and uppercase letter and number"/>
                             </div>
                             <div class="col-md-6 padding-top-10">
@@ -63,7 +60,7 @@
                         <div class="row">
                             <div class="col-md-6 padding-top-10">
                                 <label for="email" class="control-label">Email Address: 
-                                     </label>
+                                </label>
                                 <input type="email" class="form-control" name="email" id="email" placeholder="Email Address" required="required" title="Valid email address required"/>
                             </div>
 

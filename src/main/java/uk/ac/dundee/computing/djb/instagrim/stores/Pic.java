@@ -3,10 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.dundee.computing.aec.instagrim.stores;
+package uk.ac.dundee.computing.djb.instagrim.stores;
 
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.Cluster;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
+import com.datastax.driver.core.Session;
 import com.datastax.driver.core.utils.Bytes;
 import java.nio.ByteBuffer;
+import uk.ac.dundee.computing.djb.instagrim.lib.CassandraHosts;
 
 /**
  *
@@ -55,4 +62,23 @@ public class Pic {
         return image;
     }
 
+    public String getDescription() {
+
+        Cluster cluster = CassandraHosts.getCluster();
+
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("SELECT description FROM pics WHERE picid = ?");
+        ResultSet rs = null;
+        BoundStatement bs = new BoundStatement(ps);
+        rs = session.execute(bs.bind(this.UUID));
+        if (rs.isExhausted()) {
+
+            return "";
+        } else {
+            Row row = rs.one();
+            String description = row.getString("description");
+            return description;
+        }
+
+    }
 }

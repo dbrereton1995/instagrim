@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.dundee.computing.aec.instagrim.servlets;
+package uk.ac.dundee.computing.djb.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.instagrim.models.User;
-import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
+import uk.ac.dundee.computing.djb.instagrim.lib.CassandraHosts;
+import uk.ac.dundee.computing.djb.instagrim.models.User;
+import uk.ac.dundee.computing.djb.instagrim.stores.LoggedIn;
 
 /**
  *

@@ -1,4 +1,4 @@
-package uk.ac.dundee.computing.aec.instagrim.servlets;
+package uk.ac.dundee.computing.djb.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.BufferedInputStream;
@@ -22,11 +22,11 @@ import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
-import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.instagrim.lib.Convertors;
-import uk.ac.dundee.computing.aec.instagrim.models.PicModel;
-import uk.ac.dundee.computing.aec.instagrim.stores.LoggedIn;
-import uk.ac.dundee.computing.aec.instagrim.stores.Pic;
+import uk.ac.dundee.computing.djb.instagrim.lib.CassandraHosts;
+import uk.ac.dundee.computing.djb.instagrim.lib.Convertors;
+import uk.ac.dundee.computing.djb.instagrim.models.PicModel;
+import uk.ac.dundee.computing.djb.instagrim.stores.LoggedIn;
+import uk.ac.dundee.computing.djb.instagrim.stores.Pic;
 
 /**
  * Servlet implementation class Image
@@ -138,6 +138,7 @@ public class Image extends HttpServlet {
 
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
+            String description = request.getParameter("description");
 
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
@@ -153,7 +154,7 @@ public class Image extends HttpServlet {
                 System.out.println("Length : " + b.length);
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username);
+                tm.insertPic(b, type, filename, username, description);
 
                 is.close();
             }

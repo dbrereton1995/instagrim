@@ -1,4 +1,4 @@
-package uk.ac.dundee.computing.aec.instagrim.lib;
+package uk.ac.dundee.computing.djb.instagrim.lib;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +28,8 @@ public final class Keyspaces {
                     + "  processedlength int,"
                     + " type  varchar,"
                     + " name  varchar,"
+                    + " description varchar,"
                     + " PRIMARY KEY (picid)"
-                    + " comments set<text>,"
                     + ")";
             String Createuserpiclist = "CREATE TABLE if not exists instagrim.userpiclist (\n"
                     + "picid uuid,\n"

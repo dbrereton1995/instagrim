@@ -23,6 +23,11 @@
                 File to upload: <input type="file" name="upfile"><br/>
 
                 <br/>
+                <br>
+                <p>Enter a description: </p>
+                <input type="text" name="description"> 
+
+                </br>
                 <input type="submit" value="Press"> to upload the file!
             </form>
 

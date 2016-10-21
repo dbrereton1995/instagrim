@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.util.Iterator"%>
-<%@page import="uk.ac.dundee.computing.aec.instagrim.servlets.profile"%>
+<%@page import="uk.ac.dundee.computing.djb.instagrim.servlets.profile"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -17,30 +17,30 @@
     <body>
         <%@include file="header.jsp" %>
         <%
-            String user = (String) session.getAttribute("username"); 
-            
-            %>
-      
-        <p>The username is: <%=user %></p>
+            String user = (String) session.getAttribute("username");
+
+        %>
+
+        <p>The username is: <%=user%></p>
 
         <%
-                java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
-                if (lsPics == null) {
-            %>
-            <p>No Pictures found</p>
-            <%
-            } else {
-                Iterator<Pic> iterator;
-                iterator = lsPics.iterator();
-                while (iterator.hasNext()) {
-                    Pic p = (Pic) iterator.next();
+            java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
+            if (lsPics == null) {
+        %>
+        <p>No Pictures found</p>
+        <%
+        } else {
+            Iterator<Pic> iterator;
+            iterator = lsPics.iterator();
+            while (iterator.hasNext()) {
+                Pic p = (Pic) iterator.next();
 
-            %>
-            <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><%
+        %>
+        <a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"></a><br/><%
 
                 }
-                }
-                %>
+            }
+            %>
 
     </body>
 </html>

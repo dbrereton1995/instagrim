@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.dundee.computing.aec.instagrim.models;
+package uk.ac.dundee.computing.djb.instagrim.models;
 
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
@@ -13,8 +13,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import uk.ac.dundee.computing.aec.instagrim.lib.AeSimpleSHA1;
-import uk.ac.dundee.computing.aec.instagrim.stores.*;
+import uk.ac.dundee.computing.djb.instagrim.lib.AeSimpleSHA1;
 
 /**
  *
@@ -23,17 +22,11 @@ import uk.ac.dundee.computing.aec.instagrim.stores.*;
 public class User {
 
     private Cluster cluster;
-    
-    
 
     public User() {
-        
-        
+
     }
 
-  
-    
-    
     public boolean checkUsernameExists(String username) {
         String lowercaseUsername = username.toLowerCase();
         //check username exists, false = good, true = bad
@@ -169,14 +162,14 @@ public class User {
         return false;
     }
 
-    public boolean removeUser(String username){
+    public boolean removeUser(String username) {
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("delete from userprofiles where username =?");
         BoundStatement bs = new BoundStatement(ps);
         session.execute(bs.bind(username));
         return true;
     }
-    
+
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }

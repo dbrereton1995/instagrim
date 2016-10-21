@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.ac.dundee.computing.aec.instagrim.servlets;
+package uk.ac.dundee.computing.djb.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
 import java.io.IOException;
@@ -15,8 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import uk.ac.dundee.computing.aec.instagrim.lib.CassandraHosts;
-import uk.ac.dundee.computing.aec.instagrim.models.User;
+import uk.ac.dundee.computing.djb.instagrim.lib.CassandraHosts;
+import uk.ac.dundee.computing.djb.instagrim.models.User;
 
 /**
  *
@@ -69,21 +69,20 @@ public class Register extends HttpServlet {
         boolean PasswordsMatch = us.doPasswordsMatch(password, confirmpassword);
         boolean ExistingEmail = us.checkEmailExists(email);
 
-         RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
-        
+        RequestDispatcher rd = request.getRequestDispatcher("register.jsp");
+
         if (ExistingUsername) {
             request.setAttribute("errorMsg", "Username already exists!");
             rd.forward(request, response);
         }
-         if (PasswordsMatch == false) {
+        if (PasswordsMatch == false) {
             request.setAttribute("errorMsg", "Passwords don't match!");
             rd.forward(request, response);
-        }  if (ExistingEmail) {
+        }
+        if (ExistingEmail) {
             request.setAttribute("errorMsg", "Email already exists!");
             rd.forward(request, response);
         } else {
-           
-            
 
             us.RegisterUser(username, password, email, first_name, last_name, address1, city, country, postcode);
 
