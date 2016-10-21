@@ -63,7 +63,6 @@ public class Pic {
     }
 
     public String getDescription() {
-
         Cluster cluster = CassandraHosts.getCluster();
 
         Session session = cluster.connect("instagrim");
