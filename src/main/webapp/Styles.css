@@ -17,14 +17,38 @@ and open the template in the editor.
 }
 
 .mainIndex{
-    width:50%;
+  
     margin: 0 auto;
     text-align: center;
-    display: inline-block;
+
+    display:inline-block;
+    
+}
+
+
+
+.imageContainer{
+  width:200px; 
+  height:200px; 
+  overflow:hidden; 
+  margin:10px; 
+  position:relative;
+}
+
+.img {
+    position:absolute;
+    margin: auto;
+    min-height: 100%;
+    min-width:100%;
+    left: -100%;
+    right: -100%;
+    top:-100%;
+    bottom: -100%;
+    
 }
 
 body{
-    
+
 }
 
 
@@ -37,5 +61,5 @@ body{
     width: 100%;
     bottom: 0;
     position: fixed;
-    
+
 }
