@@ -1,5 +1,5 @@
 <%-- 
-    Document   : userProfile
+    Document   : otherProfile
     Created on : 17-Oct-2016, 18:19:47
     Author     : dbrer
 --%>
@@ -17,30 +17,26 @@
     <body>
         <%@include file="header.jsp" %>
         <%
-            //grab username, firstname, lastname and country attributes from the user's record in userprofiles table
             String username = (String) session.getAttribute("username");
-            String email = (String) session.getAttribute("email");
             String firstname = (String) session.getAttribute("firstname");
             String lastname = (String) session.getAttribute("lastname");
             String country = (String) session.getAttribute("country");
         %>
         <div class="col-sm-4">
-            
+            <!--link causing infinite loop atm -->
            <img src="/Instagrim/resources/blankProfilePic.png" alt="<%=username%>'s Profile Picture" style="max-width:100%; height:auto; width:auto\9;">
-           <a href=""></a>
         </div>
-            <h1> <%=username%>'s Profile </h1> <a href="/Instagrim/editUserDetails.jsp"> EDIT </a>
-            <h4> <b>Name:</b> <%=firstname%> <%=lastname%> </h4>
-            <h4> <b>Location:</b> <%=country%> </h4>
-            <h4> <b>Email:</b> <%=email%> </h4>
-            <h4> <b>Pictures Uploaded:</b> </h4>
+            <h1> <%=username%>'s Profile </h1>
+            <h4> Name: <%=firstname%> <%=lastname%> </h4>
+            <h4> Location: <%=country%> </h4>
+            <h4> Pictures Uploaded: </h4>
             <div class="col-sm-12">
-            <article>
+  <article>
                 <%
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
                     if (lsPics == null) {
                 %>
-               <br></br>
+                <br></br>
                 <p style="text-align: center;">No Pictures found</p>
                 <%
                 } else {

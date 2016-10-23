@@ -38,13 +38,14 @@ import uk.ac.dundee.computing.djb.instagrim.stores.Pic;
     "/Images",
     "/Images/*",
     "/Upload/*",
-    "/Upload"
+    "/Upload",
+    "/Upload/ProfilePicture"
 })
 @MultipartConfig
 
 public class Image extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    
     private Cluster cluster;
     private HashMap CommandsMap = new HashMap();
 

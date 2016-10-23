@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.dundee.computing.djb.instagrim.servlets;
 
 import com.datastax.driver.core.Cluster;
@@ -10,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,14 +22,20 @@ import uk.ac.dundee.computing.djb.instagrim.stores.Pic;
 
 /**
  *
- * @author dbrer
+ * @author Daniel Brereton
+ * @version 1.0
+ * @since 23-10-2016
  */
-@WebServlet(name = "profile", urlPatterns = {"/profile", "/profile/*"})
+@WebServlet(name = "profile", urlPatterns = {"/profile", "/profile/*", "/profile/editProfile"})
 public class profile extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
     private Cluster cluster;
-    boolean onlydoonce = false;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        // TODO Auto-generated method stub
+        cluster = CassandraHosts.getCluster();
+    }
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -42,44 +44,124 @@ public class profile extends HttpServlet {
         super();
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+
+        //grab entered values from corresponding inputs on the edit profile form
+        String email = request.getParameter("email");
+        String first_name = request.getParameter("first_name");
+        String last_name = request.getParameter("last_name");
+        String country = request.getParameter("country");
+
+        User user = new User();
+        user.setCluster(cluster);
+        //Returns LoggedIn object from current session
+        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+        String username = lg.getUsername();
+
+        RequestDispatcher rd = request.getRequestDispatcher("editUserDetails.jsp");
+        //Does email already exist? If yes, boolean is true
+        boolean ExistingEmail = user.checkEmailExists(email);
+        if (ExistingEmail) {
+            request.setAttribute("errorMsg", "Email already exists!");
+            rd.forward(request, response);
+        } else {
+            //if the user has passed the above validation checks, Allow the user's edits to update their profile
+            String[] userInfo = user.getUserInfo(username);
+            session.setAttribute("firstname", userInfo[0]);
+            session.setAttribute("lastname", userInfo[1]);
+            session.setAttribute("country", userInfo[2]);
+            session.setAttribute("email", userInfo[3]);
+
+            //assign user object the entered data in the userprofiles table
+            user.updateUserInfo(email, first_name, last_name, country, username);
+            response.sendRedirect("/Instagrim/profile");
+        }
+
+    }
+
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession();
+        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
+
+        //Split URL into array, each element is split by '/'
         String args[] = Convertors.SplitRequestPath(request);
+
+        //switch statement using length of the array as it's parameter
         switch (args.length) {
-            // instagrim/profile/username
+            //URL = instagrim/profile/
             case 2:
-                //initProfile(request, response, args[2]);
+                showCurrentProfile(lg.getUsername(), request, response);
                 break;
-            // instagrim/profile/<username>
+            //URL = instagrim/profile/<username>
             case 3:
                 showCurrentProfile(args[2], request, response);
                 break;
         }
     }
 
-    private void initProfile(HttpServletRequest request, HttpServletResponse response, String username) throws ServletException, IOException {
-        RequestDispatcher rd = request.getRequestDispatcher("/profile/userprofile.jsp");
-        HttpSession session = request.getSession();
-        User user = new User();
-
-        //if(user.checkUsernameExists(username)){
-        session.setAttribute("username", username);
-        // }
-        rd.forward(request, response);
-    }
-
+    /**
+     * Displays the profile page of the user currently logged in Extra features
+     * of this page are editable first name, last name and profile picture
+     *
+     * @param username
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     private void showCurrentProfile(String username, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        RequestDispatcher rd = request.getRequestDispatcher("/userProfile.jsp");
         HttpSession session = request.getSession();
-        session.setAttribute("username", username);
+        //create LoggedIn object to check if user is logged in
+        LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
 
-        // PicModel tm = new PicModel();
-        //  tm.setCluster(cluster);
-        // java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
-        //  request.setAttribute("Pics", lsPics);
+        //create User object and assign it to the active cluster
+        User user = new User();
+        user.setCluster(cluster);
+
+        //Split URL into array, each element is split by '/'
+        String args[] = Convertors.SplitRequestPath(request);
+        RequestDispatcher rd;
+
+        //if Instagrim/profile/username is equal to the current user's username...
+        if (args.length == 2 || args[2].equals(lg.getUsername())) {
+            username = lg.getUsername();
+            session.setAttribute("username", username);
+            rd = request.getRequestDispatcher("/userProfile.jsp");
+        } else {
+            username = args[2];
+            session.setAttribute("username", username);
+            rd = request.getRequestDispatcher("/otherProfile.jsp");
+        }
+
+        String[] userInfo = user.getUserInfo(username);
+        session.setAttribute("firstname", userInfo[0]);
+        session.setAttribute("lastname", userInfo[1]);
+        session.setAttribute("country", userInfo[2]);
+        session.setAttribute("email", userInfo[3]);
+
         rd.forward(request, response);
-
     }
 
 }

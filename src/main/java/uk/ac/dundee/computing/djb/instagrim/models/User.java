@@ -180,7 +180,60 @@ public class User {
         //We are assuming this always works.  Also a transaction would be good here !
         return true;
     }
-
+    
+    /**
+     * 
+     * @param email
+     * @param first_name
+     * @param last_name
+     * @param country
+     * @param username
+     * @return 
+     */
+    public boolean updateUserInfo(String email, String first_name, String last_name, String country, String username){
+        Session session = cluster.connect("instagrim");
+        //CQL statement which updates the above parameters into the userprofiles table to create a new user account
+        PreparedStatement ps = session.prepare("update userprofiles SET email = ?, first_name = ?, last_name = ?, country = ? WHERE username = ?");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute(
+        boundStatement.bind(email, first_name, last_name, country, username)
+        );
+        //We are assuming this always works
+        return true;
+    }
+    
+    public String[] getUserInfo(String username){
+       
+        String[] userInfo = new String[]{"","","",""};
+        Session session = cluster.connect("instagrim");
+        //CQL statement which looks for the parameter 'username' in the userprofiles table 
+        PreparedStatement ps = session.prepare("SELECT email, first_name, last_name, country FROM userprofiles WHERE username = ?");        
+        ResultSet rs = null;
+        BoundStatement bs = new BoundStatement(ps);
+        //execute CQL statement uing username
+        rs = session.execute(bs.bind(username));
+        if (rs.isExhausted()) {
+            System.out.println("user not found");
+            return userInfo;
+        } else {
+            for (Row row : rs) {
+                //for each row in the Result Set, grab the details as a String
+                String StoredEmail = row.getString("email");
+                String StoredFirstName = row.getString("first_name");
+                String StoredLastName = row.getString("last_name");
+                String StoredCountry = row.getString("country");
+                
+                
+                userInfo[0] = StoredFirstName;
+                userInfo[1] = StoredLastName;
+                userInfo[2] = StoredCountry;
+                userInfo[3] = StoredEmail;
+                    return userInfo;
+                }
+            }
+        return userInfo;
+        }
+       
     /**
      * Returns a boolean value which enables the user to log in
      * 
