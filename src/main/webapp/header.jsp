@@ -16,37 +16,27 @@
 <%@page import="uk.ac.dundee.computing.djb.instagrim.stores.*" %>
 <!DOCTYPE html>
 <html>
+    
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-
     </head>
+    
     <body>
         <div class="header">
             <div class ="container-fluid">
                 <div class="row">
-
                     <div class="header col-sm-12">
-                        <img src="/Instagrim/resources/logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;">  
-
+                        <a href="/Instagrim/"><img src="/Instagrim/resources/logo.png" alt="InstaGrim Logo" style="max-width:100%; height:auto; width:auto\9;"></a>
                     </div>
-
-
-
-
-
                 </div>
-
-
             </div>
         </div>
+        
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <div class="navbar-header">
-
-
                 </div>
-
                 <ul class="nav navbar-nav">
                     <%  //Returns LoggedIn object from current session
                         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
@@ -55,30 +45,26 @@
                             String UserName = lg.getUsername();
                             if (lg.getlogedin()) {
                     %>
-                    <li><a href="/Instagrim/">Home</a></li>
-                    <li><a href="/Instagrim/Upload">Upload</a></li>
+                    <li><a href="/Instagrim/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li><a href="/Instagrim/Upload"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>
                         <% }
                         } else { %>
-                    <li><a href="/Instagrim/">Home</a></li>
-                    <li><a href="/Instagrim/Images/majed">Sample Images</a></li>
+                    <li><a href="/Instagrim/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                    <li><a href="/Instagrim/Images/majed"><span class="glyphicon glyphicon-camera"></span> Sample Images</a></li>
                         <% } %>
                 </ul>
-
-
-
+                
                 <ul class="nav navbar-nav navbar-right">
                     <%
-
                         if (lg != null) {
 
                             if (lg.getlogedin()) {
                     %>
-                    <li><a href="/Instagrim/Images/<%=lg.getUsername()%>">Your Images</a></li>
+                    <li><a href="/Instagrim/profile/<%=lg.getUsername()%>"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                    <li><a href="/Instagrim/Images/<%=lg.getUsername()%>"><span class="glyphicon glyphicon-camera"></span> Your Images</a></li>
                     <li><a href="/Instagrim/logout.jsp"><span class="glyphicon glyphicon-log-out"></span> Log Out (<%=lg.getUsername()%>)</a></li>
                         <% }
                         } else { %>
-
-
                     <li><a href="/Instagrim/Register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
                     <li><a href="/Instagrim/Login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                         <% }%>
@@ -86,4 +72,5 @@
             </div>
         </nav>
     </body>
+    
 </html>
