@@ -63,20 +63,23 @@ public class Image extends HttpServlet {
     }
 
     public void init(ServletConfig config) throws ServletException {
-        // TODO Auto-generated method stub
+
         cluster = CassandraHosts.getCluster();
     }
 
     /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // takes url splits it up per slash
         String args[] = Convertors.SplitRequestPath(request);
         int command;
         try {
-            //
             command = (Integer) CommandsMap.get(args[1]);
         } catch (Exception et) {
             error("Bad Operator", response);
@@ -92,9 +95,10 @@ public class Image extends HttpServlet {
             case 3:
                 DisplayImage(Convertors.DISPLAY_THUMB, args[2], response);
                 break;
-            case 4:
-
+            case 4:             
+                //get input from upload page
                 RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
+                //set attribute "url" to the value of the split URL path
                 request.setAttribute("url", args);
                 rd.forward(request, response);
 
@@ -103,7 +107,17 @@ public class Image extends HttpServlet {
         }
     }
 
+    /**
+     * Displays a list of the user's images
+     * 
+     * @param User
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void DisplayImageList(String User, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(User);
@@ -113,14 +127,21 @@ public class Image extends HttpServlet {
 
     }
 
+    /**
+     * Displays an individual image
+     * 
+     * @param type
+     * @param Image
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void DisplayImage(int type, String Image, HttpServletResponse response) throws ServletException, IOException {
+       
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
-
         Pic p = tm.getPic(type, java.util.UUID.fromString(Image));
-
         OutputStream out = response.getOutputStream();
-
         response.setContentType(p.getType());
         response.setContentLength(p.getLength());
         //out.write(Image);
@@ -133,20 +154,29 @@ public class Image extends HttpServlet {
         out.close();
     }
 
+/**
+     * Handles the HTTP <code>POST</code> method.
+     * Mainly uploading pictures and profile pictures
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
+        //Grab the value of the profilepicture checkbox (which is a required field)
         String profilePicture = request.getParameter("profilepicture");
+        //Display value of checkbox, should be 'on' when uploading a profile picture
         System.out.println("ProfilePic Checkbox value = " + profilePicture);
+        
         for (Part part : request.getParts()) {
             System.out.println("Part Name " + part.getName());
-
             //Split URL into array, each element is split by '/'
             String args[] = Convertors.SplitRequestPath(request);
-
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
             String description = request.getParameter("description");
-
             InputStream is = request.getPart(part.getName()).getInputStream();
             int i = is.available();
             HttpSession session = request.getSession();
@@ -162,18 +192,25 @@ public class Image extends HttpServlet {
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
                 UUID profilePic = tm.insertPic(b, type, filename, username, description);
+                //IF this picture is a profile picture...
                 if(profilePicture.equals("on")){
+                        //set it as the profile picture of the corresponding user
                         tm.setProfilePic(username, profilePic);
                 }
-                
                 is.close();
             }
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
             rd.forward(request, response);
         }
-
     }
 
+    /**
+     * 
+     * @param mess
+     * @param response
+     * @throws ServletException
+     * @throws IOException 
+     */
     private void error(String mess, HttpServletResponse response) throws ServletException, IOException {
 
         PrintWriter out = null;

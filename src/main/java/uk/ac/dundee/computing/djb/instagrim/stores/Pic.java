@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.ac.dundee.computing.djb.instagrim.stores;
 
 import com.datastax.driver.core.BoundStatement;
@@ -62,20 +57,36 @@ public class Pic {
         return image;
     }
 
+    /**
+     * Returns the string to be used as a brief description below the image
+     *
+     * @return String description
+     */
     public String getDescription() {
+        
         Cluster cluster = CassandraHosts.getCluster();
-
         Session session = cluster.connect("instagrim");
+        
+        //CQL Statement which selects the description field from the pic table with the corresponding picid
         PreparedStatement ps = session.prepare("SELECT description FROM pics WHERE picid = ?");
         ResultSet rs = null;
         BoundStatement bs = new BoundStatement(ps);
+        
+        //execute using the UUID of the image
         rs = session.execute(bs.bind(this.UUID));
+        
+        //if the image isn't found, return an empty string
         if (rs.isExhausted()) {
-
             return "";
+            //else select the first(only) corresponding row
         } else {
             Row row = rs.one();
             String description = row.getString("description");
+            
+            //if the description is null, change it to an empty string
+            if (description == null) {
+                description = "";
+            }
             return description;
         }
 

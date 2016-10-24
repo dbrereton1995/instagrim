@@ -26,25 +26,36 @@
 
         <div class="mainIndex col-sm-8 well-lg">
             <h1>Recent Uploads</h1>
+            <br></br>
+            
+            <article>
+                <%
+                    //get a list of all the user's pictures
+                    java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
+                    //but if the list is empty, display "No Pictures found"
+                    if (lsPics == null) {
+                %>
 
-
-     
-
-
-
-
-
-
-
+                <p style="text-align: center;">No Pictures found</p>
+                
+                <%
+                } else {
+                    //else Iterate through the Pic list
+                    Iterator<Pic> iterator;
+                    iterator = lsPics.iterator();
+                    while (iterator.hasNext()) {
+                        Pic p = (Pic) iterator.next();
+}
+}
+                %>
+            
         </div>
         
         <div class="col-sm-2 well">
             <div class="input-group col-xs-12">
                         <input type="text" class="search-query form-control" name="searchBox" placeholder="Search"/>
                         <span class="input-group-btn">
-                            <input type="submit" class="btn btn-success" type="button">
-                                
-                            
+                            <input type="submit" class="btn btn-success" type="button">       
                         </span>
                     </div>
         </div>

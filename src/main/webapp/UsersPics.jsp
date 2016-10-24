@@ -1,9 +1,3 @@
-<%-- 
-    Document   : UsersPics
-    Created on : Sep 24, 2014, 2:52:48 PM
-    Author     : Administrator
---%>
-
 <%@page import="uk.ac.dundee.computing.djb.instagrim.models.PicModel"%>
 <%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -25,22 +19,28 @@
             
             <article>
                 <%
+                    //get a list of all the user's pictures
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
+                    //but if the list is empty, display "No Pictures found"
                     if (lsPics == null) {
                 %>
                 <p>No Pictures found</p>
                 <%
                 } else {
+                    //else Iterate through the Pic list
                     Iterator<Pic> iterator;
                     iterator = lsPics.iterator();
                     while (iterator.hasNext()) {
                         Pic p = (Pic) iterator.next();
                 %>
+                
+                <!-- displays picture and corresponding description -->
                 <div class="col-sm-3" style=" display:inline-block; margin: 0 auto; height: auto; width: auto; border: 2px solid;">
                     <br></br><a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"><br>
                         <p><%=p.getDescription()%> <p>
                         </br></a>
                 </div>
+                        
                 <%
                         }
                     }

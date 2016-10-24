@@ -16,7 +16,6 @@ import uk.ac.dundee.computing.djb.instagrim.lib.CassandraHosts;
 import uk.ac.dundee.computing.djb.instagrim.lib.Convertors;
 import uk.ac.dundee.computing.djb.instagrim.models.PicModel;
 import uk.ac.dundee.computing.djb.instagrim.models.User;
-
 import uk.ac.dundee.computing.djb.instagrim.stores.LoggedIn;
 import uk.ac.dundee.computing.djb.instagrim.stores.Pic;
 
@@ -26,7 +25,12 @@ import uk.ac.dundee.computing.djb.instagrim.stores.Pic;
  * @version 1.0
  * @since 23-10-2016
  */
-@WebServlet(name = "profile", urlPatterns = {"/profile", "/profile/*", "/profile/editProfile"})
+@WebServlet(name = "profile", urlPatterns = 
+    {
+    "/profile",
+    "/profile/*", 
+    "/profile/editProfile"
+    })
 public class profile extends HttpServlet {
 
     private Cluster cluster;
@@ -118,7 +122,11 @@ public class profile extends HttpServlet {
                 if(args[2].equals("editProfile")){
                     RequestDispatcher rd = request.getRequestDispatcher("/editUserDetails.jsp");
                     rd.forward(request, response);
+                }else if(args[2].equals("deleteProfile")){
+                    RequestDispatcher rd = request.getRequestDispatcher("/deleteProfile.jsp");
+                    rd.forward(request, response);             
                 }else{
+                    //display corresponding profile to the <username> in the URL
                 showCurrentProfile(args[2], request, response);
                 break;
                 }
@@ -138,14 +146,14 @@ public class profile extends HttpServlet {
      */
     private void showCurrentProfile(String username, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        
+        //initialise pictures uploaded by this specific user
         PicModel tm = new PicModel();
         tm.setCluster(cluster);
         Pic pic = tm.getProfilePic(username);
         java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
         
-        
         HttpSession session = request.getSession();
+        
         //create LoggedIn object to check if user is logged in
         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
 
@@ -159,15 +167,20 @@ public class profile extends HttpServlet {
 
         //if Instagrim/profile/username is equal to the current user's username...
         if (args.length == 2 || args[2].equals(lg.getUsername())) {
+            //display their username
             username = lg.getUsername();
             session.setAttribute("username", username);
+            //display profile page with edit options
             rd = request.getRequestDispatcher("/userProfile.jsp");
         } else {
+            //display this profile's username
             username = args[2];
             session.setAttribute("username", username);
+            //display profile page with no edit options
             rd = request.getRequestDispatcher("/otherProfile.jsp");
         }
 
+        //Set attributes of User Information, their pics and their profile picture
         String[] userInfo = user.getUserInfo(username);
         session.setAttribute("firstname", userInfo[0]);
         session.setAttribute("lastname", userInfo[1]);

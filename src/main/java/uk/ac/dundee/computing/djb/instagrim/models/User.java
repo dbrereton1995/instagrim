@@ -8,7 +8,6 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import uk.ac.dundee.computing.djb.instagrim.lib.AeSimpleSHA1;
 
 /**
@@ -59,6 +58,7 @@ public class User {
      * @return true (if password field is null) OR false (if password field is empty)
      */
     public boolean IsPasswordNull(String password) {
+        
         return password.equals("");
     }
 
@@ -113,6 +113,7 @@ public class User {
      * @return true (if password does match confirmpassword) OR false (if passwords don't match)
      */
     public boolean doPasswordsMatch(String password, String confirmpassword) {
+        
         return password.equals(confirmpassword);
     }
 
@@ -124,6 +125,7 @@ public class User {
      * @return true (if email exists) OR false (if email doesn't exist)
      */
     public boolean checkEmailExists(String email) {
+        
         //check username exists, false = good, true = bad
         Session session = cluster.connect("instagrim");
         //CQL statement which looks for the parameter 'email' in the userprofiles table 
@@ -147,7 +149,7 @@ public class User {
     }
 
     /**
-     * Returns a boolean value signalling whether a user has been successfully registered
+     * Returns a boolean value signalling whether a user has been successfully registered (assumed always succeeds)
      * 
      * @param username user-entered username
      * @param password user-entered password
@@ -161,6 +163,7 @@ public class User {
      * @return true (when the user has been successfully registered) OR false (if the password fails to encrypt)
      */
     public boolean RegisterUser(String username, String password, String email, String first_name, String last_name, String address1, String city, String country, String postcode) {
+        
         //Setup password encryption
         AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
@@ -183,6 +186,8 @@ public class User {
     }
     
     /**
+     * Returns a boolean confirming the (assumed) success of a user updating their details
+     * The user can update their email, first name, last name and country
      * 
      * @param email
      * @param first_name
@@ -192,6 +197,7 @@ public class User {
      * @return 
      */
     public boolean updateUserInfo(String email, String first_name, String last_name, String country, String username){
+        
         Session session = cluster.connect("instagrim");
         //CQL statement which updates the above parameters into the userprofiles table to create a new user account
         PreparedStatement ps = session.prepare("update userprofiles SET email = ?, first_name = ?, last_name = ?, country = ? WHERE username = ?");
@@ -203,6 +209,13 @@ public class User {
         return true;
     }
     
+    /**
+     * Returns an array of strings containing a specific user's information 
+     * (For display on their profile page)
+     * 
+     * @param username
+     * @return String of Arrays[]{email, first_name, last_name, country}
+     */
     public String[] getUserInfo(String username){
        
         String[] userInfo = new String[]{"","","",""};
@@ -224,7 +237,7 @@ public class User {
                 String StoredLastName = row.getString("last_name");
                 String StoredCountry = row.getString("country");
                 
-                
+                //store the information in the userInfo array
                 userInfo[0] = StoredFirstName;
                 userInfo[1] = StoredLastName;
                 userInfo[2] = StoredCountry;
@@ -243,6 +256,7 @@ public class User {
      * @return boolean value 
      */
     public boolean IsValidUser(String username, String password) {
+        
         AeSimpleSHA1 sha1handler = new AeSimpleSHA1();
         String EncodedPassword = null;
         try {
@@ -283,22 +297,32 @@ public class User {
      * @return boolean value true (if account is successfully removed)
      */
     public boolean removeUser(String username) {
+        
         Session session = cluster.connect("instagrim");
         //CQL Statement which uses the username parameter as an indicator of which record to delete from the userprofiles table
         PreparedStatement ps = session.prepare("delete from userprofiles where username =?");
         BoundStatement bs = new BoundStatement(ps);
         //Execute CQL statement using the username parameter as the value
         session.execute(bs.bind(username));
+        //Assume this is always true
         return true;
     }
 
+    /**
+     * Returns an array of strings containing 5 users from the userprofiles table
+     * 
+     * @return array of strings containing 5 usernames
+     */
     public String[] selectNewUsers(){
+        
         String[] newUsers = new String[5];
         Session session = cluster.connect("instagrim");
-        //CQL Statement which 
+        
+        //CQL Statement which selects a limited number (5) of usernames from the userprofiles table
         PreparedStatement ps = session.prepare("select username from userprofiles limit 5");
         ResultSet rs = null;
         BoundStatement bs = new BoundStatement(ps);
+        
         //Execute CQL statement using the preparedStatement parameter as the value
         rs = session.execute(bs.bind(ps));
         if (rs.isExhausted()) {
@@ -306,6 +330,7 @@ public class User {
             return newUsers;
         } else {
             int i = 0;
+            //for each of the 5 rows, grab the usename and input it into the corresponding slot of the newUsers array
             for (Row row : rs) {
                 String username = row.getString("username");
                 newUsers[i] = username;
@@ -323,6 +348,7 @@ public class User {
      * @param cluster 
      */
     public void setCluster(Cluster cluster) {
+        
         this.cluster = cluster;
     }
 

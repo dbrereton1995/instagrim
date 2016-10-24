@@ -1,9 +1,3 @@
-<%-- 
-    Document   : logout
-    Created on : 16-Oct-2016, 20:27:30
-    Author     : dbrer
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="header.jsp"%>
 <!DOCTYPE html>
@@ -16,8 +10,11 @@
     <body>
 
         <%
+            //sets lg object value to null
             lg = (null);
+            //cancel session
             session.invalidate();
+            //redirect to the homepage
             response.sendRedirect("/Instagrim");
         %>
 

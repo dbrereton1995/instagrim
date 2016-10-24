@@ -23,7 +23,6 @@ import com.datastax.driver.core.utils.Bytes;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -51,6 +50,15 @@ public class PicModel {
         this.cluster = cluster;
     }
 
+    /**
+     * 
+     * @param b
+     * @param type
+     * @param name
+     * @param user
+     * @param description
+     * @return 
+     */
     public UUID insertPic(byte[] b, String type, String name, String user, String description) {
         try {
             Convertors convertor = new Convertors();
@@ -89,7 +97,14 @@ public class PicModel {
         return null;
     }
 
+    /**
+     * 
+     * @param picid
+     * @param type
+     * @return 
+     */
     public byte[] picresize(String picid, String type) {
+        
         try {
             BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
             BufferedImage thumbnail = createThumbnail(BI);
@@ -106,7 +121,14 @@ public class PicModel {
         return null;
     }
 
+    /**
+     * 
+     * @param picid
+     * @param type
+     * @return 
+     */
     public byte[] picdecolour(String picid, String type) {
+        
         try {
             BufferedImage BI = ImageIO.read(new File("/var/tmp/instagrim/" + picid));
             BufferedImage processed = createProcessed(BI);
@@ -122,26 +144,46 @@ public class PicModel {
         return null;
     }
 
+    /**
+     * 
+     * @param img
+     * @return 
+     */
     public static BufferedImage createThumbnail(BufferedImage img) {
+        
         img = resize(img, Method.SPEED, 250, OP_ANTIALIAS, OP_GRAYSCALE);
         // Let's add a little border before we return result.
         return pad(img, 2);
     }
 
+    /**
+     * 
+     * @param img
+     * @return 
+     */
     public static BufferedImage createProcessed(BufferedImage img) {
+        
         int Width = img.getWidth() - 1;
         img = resize(img, Method.SPEED, Width, OP_ANTIALIAS, OP_GRAYSCALE);
         return pad(img, 4);
     }
 
+    /**
+     * Returns a linked list of pictures for the specified user
+     * 
+     * @param User
+     * @return 
+     */
     public LinkedList<Pic> getPicsForUser(String User) {
+        
         LinkedList<Pic> Pics = new LinkedList<>();
         Session session = cluster.connect("instagrim");
+        //CQL statement which selects all the picids (pictures) from the userpiclist corresponding to the specified user
         PreparedStatement ps = session.prepare("select picid from userpiclist where user =?");
         ResultSet rs = null;
         BoundStatement boundStatement = new BoundStatement(ps);
-        rs = session.execute( // this is where the query is executed
-                boundStatement.bind( // here you are binding the 'boundStatement'
+        rs = session.execute(
+                boundStatement.bind( 
                         User));
         if (rs.isExhausted()) {
             System.out.println("No Images returned");
@@ -153,7 +195,6 @@ public class PicModel {
                 System.out.println("UUID" + UUID.toString());
                 pic.setUUID(UUID);
                 Pics.add(pic);
-
             }
         }
         return Pics;
@@ -190,19 +231,33 @@ public class PicModel {
         return Pics;
     }
 
+    /**
+     * sets the profile picture of the specified user 
+     * 
+     * @param username
+     * @param profilepic 
+     */
     public void setProfilePic(String username, UUID profilepic){
         
+        //connect to instagrim cluster
         Session session = cluster.connect("instagrim");
+        //CQL statement which updates the profilepic UUID field of the specified user
         PreparedStatement ps = session.prepare("update userprofiles SET profilepic = ? WHERE username = ?");
         BoundStatement boundStatement = new BoundStatement(ps);
+        //executes CQL statement using above parameters
         session.execute(
                 boundStatement.bind(profilepic, username)
-        );
-        
+        );    
     }
     
+    /**
+     * Returns the profile picture of the specific user
+     * 
+     * @param username
+     * @return Pic class containing profile picture
+     */
     public Pic getProfilePic(String username){
-        //
+        //connect to instagrim cluster
         Session session = cluster.connect("instagrim");
         PreparedStatement ps = session.prepare("select profilepic FROM userprofiles where username = ?");
         BoundStatement bs = new BoundStatement(ps);
@@ -214,12 +269,15 @@ public class PicModel {
             System.out.println("Profile Pic not found");
             return null;
         }else{
+            //get the UUID of the profilepic field
             for(Row row: rs){
                 UUID profilePic = row.getUUID("profilepic");
                 Pic pic = new Pic();
+                //if there is no UUID value in the profilepic field, return a null object
                 if(profilePic == null){
                     return null;
                 }else{
+                //if successful, set the profile pic
                 pic.setUUID(profilePic);
                 return pic;
                 }
@@ -228,7 +286,12 @@ public class PicModel {
         return null;
     }
     
-    
+    /**
+     * 
+     * @param image_type
+     * @param picid
+     * @return 
+     */
     public Pic getPic(int image_type, java.util.UUID picid) {
         Session session = cluster.connect("instagrim");
         ByteBuffer bImage = null;
@@ -251,7 +314,6 @@ public class PicModel {
             rs = session.execute( // this is where the query is executed
                     boundStatement.bind( // here you are binding the 'boundStatement'
                             picid));
-
             if (rs.isExhausted()) {
                 System.out.println("No Images returned");
                 return null;
@@ -263,14 +325,11 @@ public class PicModel {
                     } else if (image_type == Convertors.DISPLAY_THUMB) {
                         bImage = row.getBytes("thumb");
                         length = row.getInt("thumblength");
-
                     } else if (image_type == Convertors.DISPLAY_PROCESSED) {
                         bImage = row.getBytes("processed");
                         length = row.getInt("processedlength");
                     }
-
                     type = row.getString("type");
-
                 }
             }
         } catch (Exception et) {
@@ -280,9 +339,6 @@ public class PicModel {
         session.close();
         Pic p = new Pic();
         p.setPic(bImage, length, type);
-
         return p;
-
     }
-
 }
