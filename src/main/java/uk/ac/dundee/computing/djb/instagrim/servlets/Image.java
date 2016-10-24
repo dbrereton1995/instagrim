@@ -136,7 +136,7 @@ public class Image extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
         String profilePicture = request.getParameter("profilepicture");
-        System.out.println("hello" + profilePicture);
+        System.out.println("ProfilePic Checkbox value = " + profilePicture);
         for (Part part : request.getParts()) {
             System.out.println("Part Name " + part.getName());
 

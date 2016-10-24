@@ -22,10 +22,11 @@
             <div class="container padding-top-10">
                 <div class="panel panel-default">
                     <% 
-                        
-                        
+                        //Grab URL, split it by '/'
                         String args[] = (String[]) request.getAttribute("url");
+                        //if the URL isn't empty..
                         if(args != null){
+                        //if the URL is 3 elements long - it's a profile picture
                         if(args.length == 3){
                             if(args[2].equals("ProfilePicture")){
                           %>
@@ -52,8 +53,9 @@
                         </form>
                     </div>
                          <%   }
-     }                       
-    }else{ %>
+     }               
+     //else if the URL is only 2 elements long it must only be Instagrim/Upload
+    else if (args.length == 2){ %>
                     <div class="panel-heading"> Upload a File </div>
                     <div class ="panel-body">
                         <form method="POST" enctype="multipart/form-data" action="Image">
@@ -70,12 +72,14 @@
                                 </div>
                             </div>
                             </br>
+                            <input type="hidden" name="profilepicture" value="on">
                             <div class="col-md-3 col-md-offset-4">
                                 <input type="submit" value="Press"> to upload the file!
                             </div>
                         </form>
                     </div>
-                    <% } %>
+                    <% } 
+}%>
                 </div>
             </div>
         </article>
