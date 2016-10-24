@@ -4,6 +4,7 @@
     Author     : Administrator
 --%>
 
+<%@page import="uk.ac.dundee.computing.djb.instagrim.models.User"%>
 <%@page import="java.util.Iterator"%>
 <!DOCTYPE html>
 
@@ -27,22 +28,7 @@
             <h1>Recent Uploads</h1>
 
 
-            <div class="col-sm-3 well">
-
-
-            </div>
-            <div class="col-sm-3 well">
-
-
-            </div>
-            <div class="col-sm-3 well">
-
-
-            </div>
-            <div class="col-sm-3 well">
-
-
-            </div>
+     
 
 
 
@@ -50,11 +36,26 @@
 
 
 
+        </div>
+        
+        <div class="col-sm-2 well">
+            <div class="input-group col-xs-12">
+                        <input type="text" class="search-query form-control" name="searchBox" placeholder="Search"/>
+                        <span class="input-group-btn">
+                            <input type="submit" class="btn btn-success" type="button">
+                                
+                            
+                        </span>
+                    </div>
         </div>
         <div class="col-sm-2 well">
-            <h4>Popular Users</h4>
-
+            <h4 style="text-align: center;">New Users</h4>
+            <%
+            //User user = new User();
+            //user.selectNewUsers();
+            %>
         </div>
+    
 
 
 

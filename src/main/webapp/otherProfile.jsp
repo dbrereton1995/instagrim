@@ -18,13 +18,20 @@
         <%@include file="header.jsp" %>
         <%
             String username = (String) session.getAttribute("username");
+            String email = (String) session.getAttribute("email");
             String firstname = (String) session.getAttribute("firstname");
             String lastname = (String) session.getAttribute("lastname");
             String country = (String) session.getAttribute("country");
+             Pic profilePic = (Pic) request.getAttribute("profilePicture");
+            int numOfPics = 0;
         %>
         <div class="col-sm-4">
-            <!--link causing infinite loop atm -->
+            <% if(profilePic == null){ %>
+          
            <img src="/Instagrim/resources/blankProfilePic.png" alt="<%=username%>'s Profile Picture" style="max-width:100%; height:auto; width:auto\9;">
+        <%}else{%>
+        <img src="/Instagrim/Thumb/<%=profilePic.getSUUID()%>" alt="<%=username%>'s Profile Picture" style="max-width:100%; height:auto; width:auto\9; display:inline;">
+        <%}%>
         </div>
             <h1> <%=username%>'s Profile </h1>
             <h4> Name: <%=firstname%> <%=lastname%> </h4>

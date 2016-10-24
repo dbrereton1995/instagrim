@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.UUID;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -38,14 +39,13 @@ import uk.ac.dundee.computing.djb.instagrim.stores.Pic;
     "/Images",
     "/Images/*",
     "/Upload/*",
-    "/Upload",
-    "/Upload/ProfilePicture"
+    "/Upload"
+
 })
 @MultipartConfig
 
 public class Image extends HttpServlet {
 
-    
     private Cluster cluster;
     private HashMap CommandsMap = new HashMap();
 
@@ -94,8 +94,8 @@ public class Image extends HttpServlet {
                 break;
             case 4:
 
-                RequestDispatcher rd = request.getRequestDispatcher("upload.jsp");
-
+                RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");
+                request.setAttribute("url", args);
                 rd.forward(request, response);
 
             default:
@@ -134,8 +134,14 @@ public class Image extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        String profilePicture = request.getParameter("profilepicture");
+        System.out.println("hello" + profilePicture);
         for (Part part : request.getParts()) {
             System.out.println("Part Name " + part.getName());
+
+            //Split URL into array, each element is split by '/'
+            String args[] = Convertors.SplitRequestPath(request);
 
             String type = part.getContentType();
             String filename = part.getSubmittedFileName();
@@ -155,8 +161,11 @@ public class Image extends HttpServlet {
                 System.out.println("Length : " + b.length);
                 PicModel tm = new PicModel();
                 tm.setCluster(cluster);
-                tm.insertPic(b, type, filename, username, description);
-
+                UUID profilePic = tm.insertPic(b, type, filename, username, description);
+                if(profilePicture.equals("on")){
+                        tm.setProfilePic(username, profilePic);
+                }
+                
                 is.close();
             }
             RequestDispatcher rd = request.getRequestDispatcher("/upload.jsp");

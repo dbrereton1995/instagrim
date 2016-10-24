@@ -4,6 +4,7 @@
     Author     : Administrator
 --%>
 
+<%@page import="uk.ac.dundee.computing.djb.instagrim.models.PicModel"%>
 <%@page import="java.util.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="uk.ac.dundee.computing.djb.instagrim.stores.*" %>
@@ -21,9 +22,7 @@
         <%@include file="header.jsp"%>
         
         <div class="mainIndex">
-            <% if (lg == null) {%>
-            <h1 ><%=lg.getUsername()%>'s Pics</h1> <br></br>
-            <% } %>
+            
             <article>
                 <%
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");

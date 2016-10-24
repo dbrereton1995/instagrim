@@ -115,8 +115,14 @@ public class profile extends HttpServlet {
                 break;
             //URL = instagrim/profile/<username>
             case 3:
+                if(args[2].equals("editProfile")){
+                    RequestDispatcher rd = request.getRequestDispatcher("/editUserDetails.jsp");
+                    rd.forward(request, response);
+                }else{
                 showCurrentProfile(args[2], request, response);
                 break;
+                }
+            
         }
     }
 
@@ -132,6 +138,13 @@ public class profile extends HttpServlet {
      */
     private void showCurrentProfile(String username, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        
+        PicModel tm = new PicModel();
+        tm.setCluster(cluster);
+        Pic pic = tm.getProfilePic(username);
+        java.util.LinkedList<Pic> lsPics = tm.getPicsForUser(username);
+        
+        
         HttpSession session = request.getSession();
         //create LoggedIn object to check if user is logged in
         LoggedIn lg = (LoggedIn) session.getAttribute("LoggedIn");
@@ -160,6 +173,8 @@ public class profile extends HttpServlet {
         session.setAttribute("lastname", userInfo[1]);
         session.setAttribute("country", userInfo[2]);
         session.setAttribute("email", userInfo[3]);
+        request.setAttribute("Pics", lsPics);
+        request.setAttribute("profilePicture", pic);
 
         rd.forward(request, response);
     }

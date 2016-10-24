@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.UUID;
 import javax.imageio.ImageIO;
 import static org.imgscalr.Scalr.*;
 import org.imgscalr.Scalr.Method;
@@ -50,7 +51,7 @@ public class PicModel {
         this.cluster = cluster;
     }
 
-    public void insertPic(byte[] b, String type, String name, String user, String description) {
+    public UUID insertPic(byte[] b, String type, String name, String user, String description) {
         try {
             Convertors convertor = new Convertors();
 
@@ -81,10 +82,11 @@ public class PicModel {
             session.execute(bsInsertPic.bind(picid, buffer, thumbbuf, processedbuf, user, DateAdded, length, thumblength, processedlength, type, name, description));
             session.execute(bsInsertPicToUser.bind(picid, user, DateAdded));
             session.close();
-
+            return picid;
         } catch (IOException ex) {
             System.out.println("Error --> " + ex);
         }
+        return null;
     }
 
     public byte[] picresize(String picid, String type) {
@@ -157,6 +159,12 @@ public class PicModel {
         return Pics;
     }
 
+    /**
+     * Returns all pictures stored in the database
+     * 
+     * @param User
+     * @return LinkedList of pics
+     */
     public LinkedList<Pic> getAllPics(String User) {
         LinkedList<Pic> Pics = new LinkedList<>();
         Session session = cluster.connect("instagrim");
@@ -182,6 +190,45 @@ public class PicModel {
         return Pics;
     }
 
+    public void setProfilePic(String username, UUID profilepic){
+        
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("update userprofiles SET profilepic = ? WHERE username = ?");
+        BoundStatement boundStatement = new BoundStatement(ps);
+        session.execute(
+                boundStatement.bind(profilepic, username)
+        );
+        
+    }
+    
+    public Pic getProfilePic(String username){
+        //
+        Session session = cluster.connect("instagrim");
+        PreparedStatement ps = session.prepare("select profilepic FROM userprofiles where username = ?");
+        BoundStatement bs = new BoundStatement(ps);
+        ResultSet rs = null;
+        rs = session.execute(
+                bs.bind(username)
+        );
+        if(rs.isExhausted()){
+            System.out.println("Profile Pic not found");
+            return null;
+        }else{
+            for(Row row: rs){
+                UUID profilePic = row.getUUID("profilepic");
+                Pic pic = new Pic();
+                if(profilePic == null){
+                    return null;
+                }else{
+                pic.setUUID(profilePic);
+                return pic;
+                }
+            }
+        }
+        return null;
+    }
+    
+    
     public Pic getPic(int image_type, java.util.UUID picid) {
         Session session = cluster.connect("instagrim");
         ByteBuffer bImage = null;

@@ -4,6 +4,7 @@
     Author     : dbrer
 --%>
 
+<%@page import="uk.ac.dundee.computing.djb.instagrim.models.PicModel"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="uk.ac.dundee.computing.djb.instagrim.servlets.profile"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -23,20 +24,26 @@
             String firstname = (String) session.getAttribute("firstname");
             String lastname = (String) session.getAttribute("lastname");
             String country = (String) session.getAttribute("country");
+            Pic profilePic = (Pic) request.getAttribute("profilePicture");
+            int numOfPics = 0;
         %>
         <div class="col-sm-4">
-            
+            <% if(profilePic == null){ %>
            <img src="/Instagrim/resources/blankProfilePic.png" alt="<%=username%>'s Profile Picture" style="max-width:100%; height:auto; width:auto\9;">
-           <a href=""></a>
+           <%}else{%>
+           <img src="/Instagrim/Thumb/<%=profilePic.getSUUID()%>" alt="<%=username%>'s Profile Picture" style="max-width:100%; height:auto; width:auto\9; display:inline;">
+           <%}%>
+           <p style="text-align: center;"><a href="/Instagrim/Upload/ProfilePicture">Change Profile Picture</a></p>
         </div>
-            <h1> <%=username%>'s Profile </h1> <a href="/Instagrim/editUserDetails.jsp"> EDIT </a>
+            <h1> <%=username%>'s Profile </h1> <a href="/Instagrim/profile/editProfile"> EDIT </a>
             <h4> <b>Name:</b> <%=firstname%> <%=lastname%> </h4>
             <h4> <b>Location:</b> <%=country%> </h4>
             <h4> <b>Email:</b> <%=email%> </h4>
-            <h4> <b>Pictures Uploaded:</b> </h4>
+            <h4> <b>Pictures Uploaded:</b> <%=numOfPics%> </h4>
             <div class="col-sm-12">
             <article>
                 <%
+                   
                     java.util.LinkedList<Pic> lsPics = (java.util.LinkedList<Pic>) request.getAttribute("Pics");
                     if (lsPics == null) {
                 %>
@@ -48,6 +55,7 @@
                     iterator = lsPics.iterator();
                     while (iterator.hasNext()) {
                         Pic p = (Pic) iterator.next();
+                        numOfPics++;
                 %>
                 <div class="col-sm-3" style=" display:inline-block; margin: 0 auto; height: auto; width: auto; border: 2px solid;">
                     <br></br><a href="/Instagrim/Image/<%=p.getSUUID()%>" ><img src="/Instagrim/Thumb/<%=p.getSUUID()%>"><br>

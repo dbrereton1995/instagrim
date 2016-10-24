@@ -8,6 +8,7 @@ import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import uk.ac.dundee.computing.djb.instagrim.lib.AeSimpleSHA1;
 
 /**
@@ -291,6 +292,31 @@ public class User {
         return true;
     }
 
+    public String[] selectNewUsers(){
+        String[] newUsers = new String[5];
+        Session session = cluster.connect("instagrim");
+        //CQL Statement which 
+        PreparedStatement ps = session.prepare("select username from userprofiles limit 5");
+        ResultSet rs = null;
+        BoundStatement bs = new BoundStatement(ps);
+        //Execute CQL statement using the preparedStatement parameter as the value
+        rs = session.execute(bs.bind(ps));
+        if (rs.isExhausted()) {
+            System.out.println("no users found");
+            return newUsers;
+        } else {
+            int i = 0;
+            for (Row row : rs) {
+                String username = row.getString("username");
+                newUsers[i] = username;
+                i++;
+                    return newUsers;
+                }
+            }
+        return newUsers;
+        }
+    
+    
     /**
      * Sets the Cassandra cluster
      * 
@@ -300,4 +326,6 @@ public class User {
         this.cluster = cluster;
     }
 
+    
+    
 }

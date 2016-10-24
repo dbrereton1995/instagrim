@@ -47,10 +47,10 @@
                     %>
                     <li><a href="/Instagrim/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
                     <li><a href="/Instagrim/Upload"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>
+                    
                         <% }
                         } else { %>
-                    <li><a href="/Instagrim/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                    <li><a href="/Instagrim/Images/majed"><span class="glyphicon glyphicon-camera"></span> Sample Images</a></li>
+                    <li><a href="/Instagrim/"><span class="glyphicon glyphicon-home"></span> Home</a></li>                
                         <% } %>
                 </ul>
                 

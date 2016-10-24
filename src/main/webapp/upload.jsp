@@ -4,6 +4,7 @@
     Author     : Administrator
 --%>
 
+<%@page import="uk.ac.dundee.computing.djb.instagrim.lib.Convertors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -18,24 +19,66 @@
 
 
         <article>
-            <h3>File Upload</h3>
-            <form method="POST" enctype="multipart/form-data" action="Image">
-                File to upload: <input type="file" name="upfile"><br/>
-
-                <br/>
-                <br>
-                <p>Enter a description: </p>
-                <input type="text" name="description"> 
-
-                </br>
-                <input type="submit" value="Press"> to upload the file!
-            </form>
-
+            <div class="container padding-top-10">
+                <div class="panel panel-default">
+                    <% 
+                        
+                        
+                        String args[] = (String[]) request.getAttribute("url");
+                        if(args != null){
+                        if(args.length == 3){
+                            if(args[2].equals("ProfilePicture")){
+                          %>
+                            <div class="panel-heading"> Upload a Profile Picture </div>
+                    <div class ="panel-body">
+                        <form method="POST" enctype="multipart/form-data" action="Image">
+                            <div class="row-padding-top-10">
+                                <div class="col-md-3">
+                                    <input type="file" name="upfile">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="col-md-3 padding-top-10">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" checked required="required" name="profilepicture"> Confirm Profile Picture submission
+                                        </label>
+                                    </div>
+                                </div>
+                            </br>
+                            <div class="col-md-3 col-md-offset-4">
+                                <input type="submit" value="Press"> to upload the file!
+                            </div>
+                        </form>
+                    </div>
+                         <%   }
+     }                       
+    }else{ %>
+                    <div class="panel-heading"> Upload a File </div>
+                    <div class ="panel-body">
+                        <form method="POST" enctype="multipart/form-data" action="Image">
+                            <div class="row-padding-top-10">
+                                <div class="col-md-3">
+                                    <input type="file" name="upfile">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="row padding-top-10" >
+                                <div class="col-md-3">
+                                    <p>Enter a description: </p>
+                                    <input type="text" name="description"> 
+                                </div>
+                            </div>
+                            </br>
+                            <div class="col-md-3 col-md-offset-4">
+                                <input type="submit" value="Press"> to upload the file!
+                            </div>
+                        </form>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
         </article>
-        <footer>
-            <ul>
-                <li class="footer"><a href="/Instagrim">Home</a></li>
-            </ul>
-        </footer>
+
     </body>
 </html>

@@ -89,8 +89,8 @@
                                 <input type="text" class="form-control" name="city" id="city" placeholder="City"/>
                             </div>
                             <div class="col-md-4 padding-top-10">
-                                <label for="region" class="control-label">Region:</label>
-                                <input type="text" class="form-control" name="region" id="region" placeholder="Region"/>
+                                <label for="region" class="control-label">Country:</label>
+                                <input type="text" class="form-control" name="country" id="region" placeholder="Country" required="required"/>
                             </div>
                             <div class="col-md-2 padding-top-10">
                                 <label for="postcode" class="control-label">Postcode:</label>
@@ -103,7 +103,7 @@
                             <div class="col-md-6 padding-top-10">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox"/> Click here to agree to our terms of service
+                                        <input type="checkbox" required="required" title="You must agree!"/> Click here to agree to our terms of service
 
                                     </label>
                                 </div
