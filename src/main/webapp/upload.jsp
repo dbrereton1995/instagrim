@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             </br>
-                            <input type="hidden" name="profilepicture" value="on">
+                            <input type="hidden" name="profilepicture" value="off">
                             <div class="col-md-3 col-md-offset-4">
                                 <input type="submit" value="Press"> to upload the file!
                             </div>
